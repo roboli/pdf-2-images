@@ -1,4 +1,4 @@
-(ns pdf-to-images.core
+(ns pdf-2-images.core
   (:require [clojure.java.io :as io])
   (:import [org.apache.pdfbox.pdmodel PDDocument]
            [org.apache.pdfbox.rendering PDFRenderer]
@@ -34,7 +34,7 @@
     (ImageIOUtil/writeImage image image-pathname dpi)
     image-pathname))
 
-(defn pdf-to-images
+(defn pdf-2-images
   "Converts a page range of a PDF document to images using one of the defined image handlers
   (image to image, image to byte array or image to file) or the custom one.
   Returns a sequence consisting of the images, byte arrays or pathnames depending on the
