@@ -1,4 +1,4 @@
-(defproject org.clojars.roboli/pdf-2-images "0.1.2"
+(defproject org.clojars.roboli/pdf-2-images "0.1.3"
 
   :description "Clojure wrapper for the PDFBox that converts a page range of a PDF document to images."
 
