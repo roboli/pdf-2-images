@@ -10,6 +10,6 @@ All notable changes to this project will be documented in this file. This change
 
 ## [0.1.2] - 2023-11-13
 
-[Unreleased]: https://github.com/your-name/pdf-2-images/compare/0.1.3...HEAD
-[0.1.3]: https://github.com/your-name/pdf-2-images/compare/0.1.2...0.1.3
-[0.1.2]: https://github.com/your-name/pdf-2-images/releases/tag/0.1.2
+[Unreleased]: https://github.com/roboli/pdf-2-images/compare/0.1.3...HEAD
+[0.1.3]: https://github.com/roboli/pdf-2-images/compare/0.1.2...0.1.3
+[0.1.2]: https://github.com/roboli/pdf-2-images/releases/tag/0.1.2
