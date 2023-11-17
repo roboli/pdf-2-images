@@ -9,30 +9,34 @@
 (defn- range-intersection-for-border-pairs
   [range-border-pairs]
   (let [intersection-vec (reduce
-                           (fn [[start1 end1] [start2 end2]]
-                             [(max start1 start2) (min end1 end2)])
-                           (first range-border-pairs)
-                           (rest range-border-pairs))]
+                          (fn [[start1 end1] [start2 end2]]
+                            [(max start1 start2) (min end1 end2)])
+                          (first range-border-pairs)
+                          (rest range-border-pairs))]
     (range (first intersection-vec)
            (last intersection-vec))))
 
 (defn image-to-image [{image :image}] image)
 
 (defn image-to-byte-array
-  [{image :image ext :ext dpi :dpi}]
+  [{image :image ext :ext dpi :dpi quality :quality}]
   (let [baos (ByteArrayOutputStream.)]
     (try
-      (ImageIOUtil/writeImage image ext baos dpi)
+      (ImageIOUtil/writeImage image ext baos dpi quality)
       (.flush baos)
       (.toByteArray baos)
       (finally
         (if (not= baos nil) (.close baos))))))
 
 (defn image-to-file
-  [{image :image image-index :image-index ext :ext dpi :dpi base-path :base-path}]
+  [{image :image image-index :image-index ext :ext dpi :dpi quality :quality base-path :base-path}]
   (let [image-pathname (str base-path "-" image-index "." ext)]
-    (ImageIOUtil/writeImage image image-pathname dpi)
-    image-pathname))
+    (with-open [baos (ByteArrayOutputStream.)
+                out  (io/output-stream (io/file image-pathname))]
+      (ImageIOUtil/writeImage image ext baos dpi quality)
+      (.flush baos)
+      (.write out (.toByteArray baos))
+      image-pathname)))
 
 (defn pdf-2-images
   "Converts a page range of a PDF document to images using one of the defined image handlers
@@ -44,12 +48,14 @@
     :start-page - The start page, defaults to 0
     :end-page   - The end page, defaults to Integer/MAX_VALUE
     :dpi        - Screen resolution, defaults to 300
+    :quality    - Quality to be used when compressing the image (0 < quality < 1), defaults to 1
     :ext        - The target file format, defaults to png
     :pathname   - Path to the PDF file, used if pdf-file is not specified (= nil)"
-  [pdf-file image-handler & {:keys [start-page end-page dpi ext pathname]
+  [pdf-file image-handler & {:keys [start-page end-page dpi quality ext pathname]
                              :or {start-page 0
                                   end-page (Integer/MAX_VALUE)
                                   dpi 300
+                                  quality 1
                                   ext "png"}}]
 
   (let [pdf-file (if pdf-file pdf-file (io/file pathname))
@@ -61,14 +67,15 @@
 
     (try
       (doall
-        (map
-          (fn [page-index]
-            (let [image (.renderImageWithDPI pdf-renderer page-index dpi ImageType/RGB)]
-              (image-handler {:image image
-                              :image-index page-index
-                              :ext ext
-                              :dpi dpi
-                              :base-path (.getAbsolutePath pdf-file)})))
-          page-range))
+       (map
+        (fn [page-index]
+          (let [image (.renderImageWithDPI pdf-renderer page-index dpi ImageType/RGB)]
+            (image-handler {:image image
+                            :image-index page-index
+                            :ext ext
+                            :dpi dpi
+                            :quality quality
+                            :base-path (.getAbsolutePath pdf-file)})))
+        page-range))
       (finally
         (if (not= pd-document nil) (.close pd-document))))))
