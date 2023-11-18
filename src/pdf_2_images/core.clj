@@ -39,10 +39,14 @@
       image-pathname)))
 
 (defn pdf-2-images
-  "Converts a page range of a PDF document to images using one of the defined image handlers
-  (image to image, image to byte array or image to file) or the custom one.
-  Returns a sequence consisting of the images, byte arrays or pathnames depending on the
-  selected image handler.
+  "Converts a page range of a PDF document to images using one of the defined image handlers:
+
+  image-to-image
+  image-to-byte-array
+  image-to-file
+
+  Or pass in a custom one. Returns a sequence consisting of the images, byte arrays or pathnames
+  depending on the selected image handler.
 
   Options are key-value pairs and may be one of:
     :start-page - The start page, defaults to 0
@@ -50,13 +54,14 @@
     :dpi        - Screen resolution, defaults to 300
     :quality    - Quality to be used when compressing the image (0 < quality < 1), defaults to 1
     :ext        - The target file format, defaults to png
-    :pathname   - Path to the PDF file, used if pdf-file is not specified (= nil)"
-  [pdf-file image-handler & {:keys [start-page end-page dpi quality ext pathname]
-                             :or {start-page 0
-                                  end-page (Integer/MAX_VALUE)
-                                  dpi 300
-                                  quality 1
-                                  ext "png"}}]
+    :pdf-file   - A PDF java.io.File, takes precedence over :pathname
+    :pathname   - Path to the PDF file, used if :pdf-file is not specified (= nil)"
+  [image-handler & {:keys [start-page end-page dpi quality ext pdf-file pathname]
+                    :or {start-page 0
+                         end-page (Integer/MAX_VALUE)
+                         dpi 300
+                         quality 1
+                         ext "png"}}]
 
   (let [pdf-file (if pdf-file pdf-file (io/file pathname))
         pd-document (PDDocument/load pdf-file)
@@ -64,7 +69,6 @@
         pages (vec (.getPages pd-document))
         page-range (range-intersection-for-border-pairs [[0 (count pages)]
                                                          [start-page end-page]])]
-
     (try
       (doall
        (map

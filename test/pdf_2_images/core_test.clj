@@ -12,8 +12,7 @@
 
 (deftest image-to-image-test
   (testing "Convert single page PDF"
-    (let [results (pdf-2-images nil
-                                image-to-image
+    (let [results (pdf-2-images image-to-image
                                 :pathname (str path "dummy.pdf")
                                 :dpi dpi)
           image   (first results)
@@ -28,8 +27,7 @@
       (is (java.util.Arrays/equals (.toByteArray baos1) (.toByteArray baos2)))))
 
   (testing "Convert second page from PDF"
-    (let [results (pdf-2-images nil
-                                image-to-image
+    (let [results (pdf-2-images image-to-image
                                 :pathname (str path "dummy_many.pdf")
                                 :start-page 1
                                 :end-page 2
@@ -46,8 +44,7 @@
       (is (java.util.Arrays/equals (.toByteArray baos1) (.toByteArray baos2)))))
 
   (testing "Convert multiple pages from PDF"
-    (let [images   (pdf-2-images nil
-                                 image-to-image
+    (let [images   (pdf-2-images image-to-image
                                  :pathname (str path "dummy_many.pdf")
                                  :start-page 0
                                  :end-page 2
@@ -69,8 +66,7 @@
       (is (every? identity results) true)))
 
   (testing "Convert all pages from PDF"
-    (let [images   (pdf-2-images nil
-                                 image-to-image
+    (let [images   (pdf-2-images image-to-image
                                  :pathname (str path "dummy_many.pdf")
                                  :dpi dpi)
           imgs-idx (map-indexed vector images)
@@ -91,8 +87,7 @@
 
 (deftest image-to-byte-array-test
   (testing "Convert single page PDF using quality"
-    (let [results (pdf-2-images nil
-                                image-to-byte-array
+    (let [results (pdf-2-images image-to-byte-array
                                 :pathname (str path "dummy.pdf")
                                 :dpi dpi
                                 :quality quality)
@@ -105,8 +100,7 @@
       (is (java.util.Arrays/equals (.toByteArray baos) byrr))))
 
   (testing "Convert single page PDF not using quality"
-    (let [results (pdf-2-images nil
-                                image-to-byte-array
+    (let [results (pdf-2-images image-to-byte-array
                                 :pathname (str path "dummy.pdf")
                                 :dpi dpi)
           byrr    (first results)
@@ -118,8 +112,7 @@
       (is (java.util.Arrays/equals (.toByteArray baos) byrr))))
 
   (testing "Convert second page from PDF"
-    (let [results (pdf-2-images nil
-                                image-to-byte-array
+    (let [results (pdf-2-images image-to-byte-array
                                 :pathname (str path "dummy_many.pdf")
                                 :start-page 1
                                 :end-page 2
@@ -134,8 +127,7 @@
       (is (java.util.Arrays/equals (.toByteArray baos) byrr))))
 
   (testing "Convert multiple pages from PDF"
-    (let [byrrs     (pdf-2-images nil
-                                  image-to-byte-array
+    (let [byrrs     (pdf-2-images image-to-byte-array
                                   :pathname (str path "dummy_many.pdf")
                                   :start-page 0
                                   :end-page 2
@@ -155,8 +147,7 @@
       (is (every? identity results) true)))
 
   (testing "Convert all pages from PDF"
-    (let [byrrs     (pdf-2-images nil
-                                  image-to-byte-array
+    (let [byrrs     (pdf-2-images image-to-byte-array
                                   :pathname (str path "dummy_many.pdf")
                                   :dpi dpi
                                   :quality quality)
@@ -175,8 +166,7 @@
 
 (deftest image-to-file-test
   (testing "Convert single page PDF using quality"
-    (let [ipath (first (pdf-2-images nil
-                                     image-to-file
+    (let [ipath (first (pdf-2-images image-to-file
                                      :pathname (str path "dummy.pdf")
                                      :dpi dpi
                                      :quality quality))
@@ -197,8 +187,7 @@
           (io/delete-file ipath)))))
 
   (testing "Convert single page PDF not using quality"
-    (let [ipath (first (pdf-2-images nil
-                                     image-to-file
+    (let [ipath (first (pdf-2-images image-to-file
                                      :pathname (str path "dummy.pdf")
                                      :dpi dpi))
           file1 (io/file ipath)
@@ -218,8 +207,7 @@
           (io/delete-file ipath)))))
 
   (testing "Convert second page from PDF"
-    (let [ipath (first (pdf-2-images nil
-                                     image-to-file
+    (let [ipath (first (pdf-2-images image-to-file
                                      :pathname (str path "dummy_many.pdf")
                                      :start-page 1
                                      :end-page 2
@@ -238,8 +226,7 @@
           (io/delete-file ipath)))))
 
   (testing "Convert multiple pages from PDF"
-    (let [paths     (pdf-2-images nil
-                                  image-to-file
+    (let [paths     (pdf-2-images image-to-file
                                   :pathname (str path "dummy_many.pdf")
                                   :start-page 0
                                   :end-page 2
@@ -265,8 +252,7 @@
       (is (every? identity results) true)))
 
   (testing "Convert all pages from PDF"
-    (let [paths     (pdf-2-images nil
-                                  image-to-file
+    (let [paths     (pdf-2-images image-to-file
                                   :pathname (str path "dummy_many.pdf")
                                   :dpi dpi)
           paths-idx (map-indexed vector paths)
