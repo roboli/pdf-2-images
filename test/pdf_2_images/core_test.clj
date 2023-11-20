@@ -30,7 +30,7 @@
     (let [results (pdf-2-images image-to-image
                                 :pathname (str path "dummy_many.pdf")
                                 :start-page 1
-                                :end-page 2
+                                :end-page 1
                                 :dpi dpi)
           image   (first results)
           img-2   (ImageIO/read (io/file (str path "dummy_many_p2.png")))
@@ -47,7 +47,7 @@
     (let [images   (pdf-2-images image-to-image
                                  :pathname (str path "dummy_many.pdf")
                                  :start-page 0
-                                 :end-page 2
+                                 :end-page 1
                                  :dpi dpi)
           imgs-idx (map-indexed vector images)
           results  (map (fn [item]
@@ -83,7 +83,8 @@
                             (java.util.Arrays/equals (.toByteArray baos1) (.toByteArray baos2))))
                         imgs-idx)]
       (is (= (count images) 3))
-      (is (every? identity results) true))))
+      (is (every? identity results) true)))
+  )
 
 (deftest image-to-byte-array-test
   (testing "Convert single page PDF using quality"
@@ -115,7 +116,7 @@
     (let [results (pdf-2-images image-to-byte-array
                                 :pathname (str path "dummy_many.pdf")
                                 :start-page 1
-                                :end-page 2
+                                :end-page 1
                                 :dpi dpi
                                 :quality quality)
           byrr    (first results)
@@ -130,7 +131,7 @@
     (let [byrrs     (pdf-2-images image-to-byte-array
                                   :pathname (str path "dummy_many.pdf")
                                   :start-page 0
-                                  :end-page 2
+                                  :end-page 1
                                   :dpi dpi
                                   :quality quality)
           byrrs-idx (map-indexed vector byrrs)
@@ -210,7 +211,7 @@
     (let [ipath (first (pdf-2-images image-to-file
                                      :pathname (str path "dummy_many.pdf")
                                      :start-page 1
-                                     :end-page 2
+                                     :end-page 1
                                      :dpi dpi))
           image (ImageIO/read (io/file ipath))
           img-2 (ImageIO/read (io/file (str path "dummy_many_p2.png")))
@@ -229,7 +230,7 @@
     (let [paths     (pdf-2-images image-to-file
                                   :pathname (str path "dummy_many.pdf")
                                   :start-page 0
-                                  :end-page 2
+                                  :end-page 1
                                   :dpi dpi)
           paths-idx (map-indexed vector paths)
           results   (map (fn [item]
