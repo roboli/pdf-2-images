@@ -16,13 +16,21 @@ Import namespace example:
 
 ```clojure
 (ns hello-world.core
-  (:require [pdf-2-images.core :refer :all]))
+  (:require [pdf-2-images.core :as pdf]))
 ```
+
+You can choose from three predefined handlers, that will let you convert your PDF's page (or pages) to an image and return them as a list of:
+
+Handler | Output
+---|---
+image-to-image | [Buffered image](https://javadoc.io/doc/org.apache.pdfbox/pdfbox/2.0.29/index.html)
+image-to-byte-array | [Byte array](https://docs.oracle.com/javase/8/docs/api/java/io/ByteArrayOutputStream.html#toByteArray--)
+image-to-file | Path to file
 
 Basic usage example:
 
 ```clojure
-(let [image-paths (pdf-2-images (clojure.java.io/file "path-to-pdf") image-to-file)]
+(let [image-paths (pdf/pdf-2-images pdf/image-to-file :pdf-file (clojure.java.io/file "path-to-pdf"))]
   (prn (str "Images count: " (count image-paths)))
   (map prn image-paths))
 
@@ -36,7 +44,7 @@ Basic usage example:
 The same with key-value pair parameter - pathname will be used if pdf-file is not specified (= nil):
 
 ```clojure
-(let [image-paths (pdf-2-images nil image-to-file :pathname "path-to-pdf")]
+(let [image-paths (pdf/pdf-2-images pdf/image-to-file :pathname "path-to-pdf")]
   (prn (str "Images count: " (count image-paths)))
   (map prn image-paths))
 
@@ -50,25 +58,20 @@ The same with key-value pair parameter - pathname will be used if pdf-file is no
 With-options usage example:
 
 ```clojure
-(let [image-paths (pdf-2-images (clojure.java.io/file "path-to-pdf")
-                                  image-to-file
-                                  :start-page 0
-                                  :end-page 1
-                                  :dpi 100
-                                  :quality 1
-                                  :ext "jpg")]
+(let [image-paths (pdf/pdf-2-images pdf/image-to-file
+                                    :pdf-file (clojure.java.io/file "path-to-pdf")
+                                    :start-page 0
+                                    :end-page 1
+                                    :dpi 100
+                                    :quality 1
+                                    :ext "jpg")]
   (prn (str "Images count: " (count image-paths)))
   (map prn image-paths))
 
-;; "Images count: 1"
+;; "Images count: 2"
 ;; "path-to-image-0"
+;; "path-to-image-1"
 ```
-
-Built-in image handlers
-
-- `image-to-image`
-- `image-to-byte-array`
-- `image-to-file`
 
 ## License
 
