@@ -19,13 +19,11 @@ Import namespace example:
   (:require [pdf-2-images.core :as pdf]))
 ```
 
-You can choose from three predefined handlers, that will let you convert your PDF's page (or pages) to an image and return them as a list of:
+You can choose one of the three predefined handlers, that will let you convert your PDF's page or pages to an image.
 
-Handler | Output
----|---
-image-to-image | [Buffered image](https://javadoc.io/doc/org.apache.pdfbox/pdfbox/2.0.29/index.html)
-image-to-byte-array | [Byte array](https://docs.oracle.com/javase/8/docs/api/java/io/ByteArrayOutputStream.html#toByteArray--)
-image-to-file | Path to file
+* `image-to-image`: Returns a list of [buffered images](https://javadoc.io/doc/org.apache.pdfbox/pdfbox/2.0.29/index.html).
+* `image-to-byte-array`: Returns a list of [byte arrays](https://docs.oracle.com/javase/8/docs/api/java/io/ByteArrayOutputStream.html#toByteArray--), one per image.
+* `image-to-file`: Returns a list of paths (strings), one per image.
 
 Basic usage example:
 
