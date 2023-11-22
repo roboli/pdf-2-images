@@ -93,7 +93,7 @@ Where options:
 Basically, pass in a function expecting a map:
 
 ```clojure
-(your-custom-handler m)
+(defn your-custom-handler [m] ...)
 ```
 
 Where `m` has the following keys with a corresponding value:
