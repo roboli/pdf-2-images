@@ -109,7 +109,7 @@ There are no constraints for the returned value.
 
 ## Examples
 
-* [Webserver-convert](./examples/webserver-convert/REAME.md): Try using pdf-2-images within a web server to convert your PDFs to images.
+* [Webserver-convert](./examples/webserver-convert/README.md): Try using pdf-2-images within a web server to convert your PDFs to images.
 
 ## License
 
