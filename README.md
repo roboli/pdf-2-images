@@ -8,7 +8,7 @@ Clojure wrapper for the PDFBox that converts a page range of a PDF document to i
 
 For installation, add the following dependency to your `project.clj` file:
 
-    [org.clojars.roboli/pdf-2-images "0.2.0"]
+    [org.clojars.roboli/pdf-2-images "1.0.0"]
 
 Import namespace example:
 
