@@ -21,7 +21,7 @@ Import namespace example:
 
 You can choose one of the three predefined handlers, that will let you convert your PDF's page or pages to an image.
 
-* `image-to-image`: Returns a list of [buffered images](https://javadoc.io/doc/org.apache.pdfbox/pdfbox/2.0.29/index.html).
+* `image-to-image`: Returns a list of [buffered images](https://javadoc.io/static/org.apache.pdfbox/pdfbox/2.0.29/org/apache/pdfbox/rendering/PDFRenderer.html#renderImageWithDPI-int-float-).
 * `image-to-byte-array`: Returns a list of [byte arrays](https://docs.oracle.com/javase/8/docs/api/java/io/ByteArrayOutputStream.html#toByteArray--), one per image.
 * `image-to-file`: Returns a list of paths (strings), one per image.
 
