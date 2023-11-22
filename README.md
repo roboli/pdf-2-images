@@ -17,7 +17,7 @@ Import namespace example:
   (:require [pdf-2-images.core :as pdf]))
 ```
 
-You can choose one of the three predefined handlers, that will let you convert your PDF's page or pages to an image.
+You can choose one of the three predefined handlers, that will let you convert your PDF's page or pages to an image:
 
 * `image-to-image`: Returns a list of [buffered images](https://javadoc.io/static/org.apache.pdfbox/pdfbox/2.0.29/org/apache/pdfbox/rendering/PDFRenderer.html#renderImageWithDPI-int-float-).
 * `image-to-byte-array`: Returns a list of [byte arrays](https://docs.oracle.com/javase/8/docs/api/java/io/ByteArrayOutputStream.html#toByteArray--), one per image.
@@ -79,14 +79,14 @@ With-options usage example:
 
 Where options:
 
-* `:page`: Page to convert to image, takes precedence over :start-page and :end-page
+* `:page`: Page to convert to image, takes precedence over *:start-page* and *:end-page*
 * `:start-page`: The start page, defaults to 0
-* `:end-page`: The end page, defaults to Integer/MAX_VALUE
+* `:end-page`: The end page, defaults to PDF's pages length - 1 or Integer/MAX_VALUE
 * `:dpi`: Screen resolution, defaults to 300
 * `:quality`: Quality to be used when compressing the image (0 < quality < 1), defaults to 1
 * `:ext`: The target file format, defaults to png
-* `:pdf-file`: A PDF java.io.File, takes precedence over :pathname
-* `:pathname`: Path to the PDF file, used if :pdf-file is not specified (= nil)
+* `:pdf-file`: A PDF java.io.File, takes precedence over *:pathname*
+* `:pathname`: Path to the PDF file, used if *:pdf-file* is not specified (= nil)
 
 ## License
 

@@ -48,7 +48,7 @@
   Options are key-value pairs and may be one of:
     :page       - Page to convert to image, takes precedence over :start-page and :end-page
     :start-page - The start page, defaults to 0
-    :end-page   - The end page, defaults to Integer/MAX_VALUE
+    :end-page   - The end page, defaults to PDF's pages length - 1 or Integer/MAX_VALUE
     :dpi        - Screen resolution, defaults to 300
     :quality    - Quality to be used when compressing the image (0 < quality < 1), defaults to 1
     :ext        - The target file format, defaults to png
