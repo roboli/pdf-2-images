@@ -23,7 +23,7 @@ You can choose one of the three predefined handlers, that will let you convert y
 * `image-to-byte-array`: Returns a list of [byte arrays](https://docs.oracle.com/javase/8/docs/api/java/io/ByteArrayOutputStream.html#toByteArray--), one per image.
 * `image-to-file`: Returns a list of paths (strings), one per image.
 
-*Or pass your own custom handler (more below).*
+*Or pass your own custom handler, more [below](#custom-handlers).*
 
 Basic usage example:
 
@@ -79,7 +79,7 @@ With-options usage example:
 
 Where options:
 
-* `:page`: Page to convert to image, takes precedence over *:start-page* and *:end-page*
+* `:page`: Page to convert to an image, takes precedence over *:start-page* and *:end-page*
 * `:start-page`: The start page, defaults to 0
 * `:end-page`: The end page, defaults to PDF's pages length - 1 or Integer/MAX_VALUE
 * `:dpi`: Screen resolution, defaults to 300
@@ -96,7 +96,7 @@ Basically, pass in a function expecting a map:
 (your-custom-handler m)
 ```
 
-Where `m` has the following keys with corresponding value:
+Where `m` has the following keys with a corresponding value:
 
 * `:image`: A [buffered image](https://javadoc.io/static/org.apache.pdfbox/pdfbox/2.0.29/org/apache/pdfbox/rendering/PDFRenderer.html#renderImageWithDPI-int-float-) of the current page
 * `:image-index`: The current page index
