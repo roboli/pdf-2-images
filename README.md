@@ -73,7 +73,7 @@ With-options usage example:
 
 ## Usage
 
-```
+```clojure
 (pdf-2-images handler :option-1-key option-1-val :option-2-key option-2-val ...)
 ```
 
@@ -87,6 +87,25 @@ Where options:
 * `:ext`: The target file format, defaults to png
 * `:pdf-file`: A PDF java.io.File, takes precedence over *:pathname*
 * `:pathname`: Path to the PDF file, used if *:pdf-file* is not specified (= nil)
+
+## Custom Handlers
+
+Basically, pass in a function expecting a map:
+
+```clojure
+(your-custom-handler m)
+```
+
+Where `m` has the following keys with corresponding value:
+
+* `:image`: A [buffered image](https://javadoc.io/static/org.apache.pdfbox/pdfbox/2.0.29/org/apache/pdfbox/rendering/PDFRenderer.html#renderImageWithDPI-int-float-) of the current page
+* `:image-index`: The current page index
+* `:ext`: The image file extension
+* `:dpi`: Screen resolution
+* `:quality`: Quality to be used when compressing the image
+* `:base-path`: The PDF file base path
+
+There are no constraints for the returned value.
 
 ## License
 
