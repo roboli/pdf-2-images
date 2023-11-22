@@ -4,13 +4,11 @@ Clojure wrapper for the PDFBox that converts a page range of a PDF document to i
 
 **Why forked?** It seems the maintainer of the original [repo](https://github.com/igmonk/pdf-to-images) is no longer available or not willing to commit new changes.
 
-## Installation
+## Quickstart
 
-Add the following dependency to your `project.clj` file:
+For installation, add the following dependency to your `project.clj` file:
 
     [org.clojars.roboli/pdf-2-images "0.2.0"]
-
-## Usage
 
 Import namespace example:
 
@@ -24,6 +22,8 @@ You can choose one of the three predefined handlers, that will let you convert y
 * `image-to-image`: Returns a list of [buffered images](https://javadoc.io/static/org.apache.pdfbox/pdfbox/2.0.29/org/apache/pdfbox/rendering/PDFRenderer.html#renderImageWithDPI-int-float-).
 * `image-to-byte-array`: Returns a list of [byte arrays](https://docs.oracle.com/javase/8/docs/api/java/io/ByteArrayOutputStream.html#toByteArray--), one per image.
 * `image-to-file`: Returns a list of paths (strings), one per image.
+
+*Or pass your own custom handler (more below).*
 
 Basic usage example:
 
@@ -70,6 +70,23 @@ With-options usage example:
 ;; "path-to-image-0"
 ;; "path-to-image-1"
 ```
+
+## Usage
+
+```
+(pdf-2-images handler :option-1-key option-1-val :option-2-key option-2-val ...)
+```
+
+Where options:
+
+* `:page`: Page to convert to image, takes precedence over :start-page and :end-page
+* `:start-page`: The start page, defaults to 0
+* `:end-page`: The end page, defaults to Integer/MAX_VALUE
+* `:dpi`: Screen resolution, defaults to 300
+* `:quality`: Quality to be used when compressing the image (0 < quality < 1), defaults to 1
+* `:ext`: The target file format, defaults to png
+* `:pdf-file`: A PDF java.io.File, takes precedence over :pathname
+* `:pathname`: Path to the PDF file, used if :pdf-file is not specified (= nil)
 
 ## License
 
