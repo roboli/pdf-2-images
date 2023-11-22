@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file. This change
 
 ## [Unreleased]
 
+## [1.0.0] - 2023-11-22
+- Make pdf-file an optional param
+- Fix pages range handling
+- Add :page optional param
+- Improve README
+
 ## [0.2.0] - 2023-11-16
 - Add quality param to options for generating a smaller file size
 
@@ -14,6 +20,7 @@ All notable changes to this project will be documented in this file. This change
 ## [0.1.2] - 2023-11-13
 
 [Unreleased]: https://github.com/roboli/pdf-2-images/compare/0.2.0...HEAD
+[1.0.0]: https://github.com/roboli/pdf-2-images/compare/0.2.0...1.0.0
 [0.2.0]: https://github.com/roboli/pdf-2-images/compare/0.1.3...0.2.0
 [0.1.3]: https://github.com/roboli/pdf-2-images/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/roboli/pdf-2-images/releases/tag/0.1.2

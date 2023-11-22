@@ -6,15 +6,12 @@
            [org.apache.pdfbox.tools.imageio ImageIOUtil]
            (java.io ByteArrayOutputStream)))
 
-(defn- range-intersection-for-border-pairs
-  [range-border-pairs]
-  (let [intersection-vec (reduce
-                          (fn [[start1 end1] [start2 end2]]
-                            [(max start1 start2) (min end1 end2)])
-                          (first range-border-pairs)
-                          (rest range-border-pairs))]
-    (range (first intersection-vec)
-           (last intersection-vec))))
+(defn- range-pages [total start end]
+  (if (= start end)
+    (list start)
+    (let [totalp (dec total)
+          endp   (if (< totalp end) totalp end)]
+      (range start (inc endp)))))
 
 (defn image-to-image [{image :image}] image)
 
@@ -39,32 +36,36 @@
       image-pathname)))
 
 (defn pdf-2-images
-  "Converts a page range of a PDF document to images using one of the defined image handlers
-  (image to image, image to byte array or image to file) or the custom one.
-  Returns a sequence consisting of the images, byte arrays or pathnames depending on the
-  selected image handler.
+  "Converts a page range of a PDF document to images using one of the defined image handlers:
+
+  image-to-image
+  image-to-byte-array
+  image-to-file
+
+  Or pass in a custom one. Returns a sequence consisting of the images, byte arrays or pathnames
+  depending on the selected image handler.
 
   Options are key-value pairs and may be one of:
+    :page       - Page to convert to image, takes precedence over :start-page and :end-page
     :start-page - The start page, defaults to 0
-    :end-page   - The end page, defaults to Integer/MAX_VALUE
+    :end-page   - The end page, defaults to PDF's pages length - 1 or Integer/MAX_VALUE
     :dpi        - Screen resolution, defaults to 300
     :quality    - Quality to be used when compressing the image (0 < quality < 1), defaults to 1
     :ext        - The target file format, defaults to png
-    :pathname   - Path to the PDF file, used if pdf-file is not specified (= nil)"
-  [pdf-file image-handler & {:keys [start-page end-page dpi quality ext pathname]
-                             :or {start-page 0
-                                  end-page (Integer/MAX_VALUE)
-                                  dpi 300
-                                  quality 1
-                                  ext "png"}}]
+    :pdf-file   - A PDF java.io.File, takes precedence over :pathname
+    :pathname   - Path to the PDF file, used if :pdf-file is not specified (= nil)"
+  [image-handler & {:keys [page start-page end-page dpi quality ext pdf-file pathname]
+                    :or {start-page (if page page 0)
+                         end-page (if page page (Integer/MAX_VALUE))
+                         dpi 300
+                         quality 1
+                         ext "png"}}]
 
-  (let [pdf-file (if pdf-file pdf-file (io/file pathname))
-        pd-document (PDDocument/load pdf-file)
+  (let [pdf-file     (if pdf-file pdf-file (io/file pathname))
+        pd-document  (PDDocument/load pdf-file)
         pdf-renderer (PDFRenderer. pd-document)
-        pages (vec (.getPages pd-document))
-        page-range (range-intersection-for-border-pairs [[0 (count pages)]
-                                                         [start-page end-page]])]
-
+        total-pages  (.getNumberOfPages pd-document)
+        page-range   (range-pages total-pages start-page end-page)]
     (try
       (doall
        (map
